@@ -22,17 +22,16 @@
         		<li><i class="fa fa-star"></i></li>
         	</ul>
 
-        	<span class="moves">3</span> Moves
+        	<span class="moves">0</span> moves
 
-             <div class="timer">
-            </div>
+             <div class="timer"></div>
 
-            <div class="restart">
+            <div class="restart" onClick=startGame()>
         		<i class="fa fa-repeat"></i>
         	</div>
         </section>
 
-        <ul class="deck">
+        <ul class="card-deck">
             <li class="card">
                 <i class="fa fa-diamond"></i>
             </li>
@@ -83,6 +82,23 @@
             </li>
         </ul>
         <div id="score">Score:0</div>
+		<div class="main-modal overlay">
+			<div class="popup">
+				<h2>Congratulations</h2>
+				<a class="close" href=#>x</a>
+				<div class="congrats-message">
+					Congratulations, you're a winner!
+				</div>
+				<div class="info-message">
+					<p>You made<span class="final-move"></span>moves</p>
+					<p>In <span class="star-rating"></span></p>
+				</div>
+				<div>
+				<button class ="play-again" onClick="reset()"> Play again</button>
+				</div>
+			</div>
+		</div>	
+		
                 
     </div>
 
