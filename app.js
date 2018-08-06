@@ -1,16 +1,24 @@
+
 /*
  * Create a list that holds all of your cards
  */
 //add all the cards to JS file
- let card = document.getElementsByClassName('card');
- let cards = [...card];
-/* alternate way---let cards = ['fa-anchor', 'fa-anchor', 'fa-bicycle', 'fa-bolt', 'fa-cube', 'fa-diamond', 'fa-diamond', 'fa-plane', 'fa-leaf', 'fa-bomb', 'fa-leaf', 'fa-bomb', 'fa-bolt', 'fa-bicycle', 'fa-plane', 'fa-cube'];*/
-
+let card = document.getElementsByClassName('card');
+ let cards = [...card];/*spread operator*/
+ /* alternate way---let cards = ['fa-anchor', 'fa-anchor', 'fa-bicycle', 'fa-bolt', 'fa-cube', 'fa-diamond', 'fa-diamond', 'fa-plane', 'fa-leaf', 'fa-bomb', 'fa-leaf', 'fa-bomb', 'fa-bolt', 'fa-bicycle', 'fa-plane', 'fa-cube'];
+ */
+// adding the cards
+let deck = document.getElementsByClassName('card-deck')[0];
+//declare moves variables
+let moves = 0;
 // adding moves counter, star rating, matched cards and opencards variables
 
-let movesCounter = document.querySelector(".moves");
-let matchedCard = document.getElementsByClassName("match");
-let stars = docuemnt.querySelectorAll(".stars li");
+let movesCounter = document.querySelector('.moves');
+let matchedCard = document.getElementsByClassName('match');
+let stars = docuemnt.querySelectorAll('.fa-star');
+let starsList = document.querrySelectorAll('.stars li');
+let closeIcon = document.querySelector('.close');
+let modal = document.getElementsByClassName('main-modal');
 let openCards =[];
 
 /*
@@ -54,18 +62,19 @@ function startGame(){
    cards = shuffle(cards);
 	//remove all existing classes from each card
    for (var i= 0; i < cards.length; i++){
-      [].forEach.call(cards, function(item){
+	    deck.innerHTML ='';
+		[].forEach.call(cards, function(item){
          deck.appendChild(item);
       });
-	cards[i].classList.remove("show", "open", "match", "disabled");
+		cards[i].classList.remove('show', 'open', 'match', 'disabled');
    }
 	
  //reset timer
-seconds = 0;
-minutes = 0;
-hour = 0;
-var timer = document.querySelector(".timer");
-timer.innerHTML = "0 mins 0 secs";
+let seconds = 0;
+let minutes = 0;
+let hour = 0;
+let timer = document.querySelector(".timer");
+timer.innerHTML = '0 mins 0 secs';
 clearInterval(interval);
 	
 //reset moves
@@ -80,7 +89,7 @@ counter.innerHTML = moves;
 
 //displayCard function to toggle the card when clicked
 
- var displayCard = function(){
+ let displayCard = function(){
  	this.classList.toggle("open");
  	this.classList.toggle("show");
  	this.classList.toggle("disabled");
@@ -90,7 +99,7 @@ counter.innerHTML = moves;
  //add opened cards to OpenedCards list and check if cards are match or not
 function cardOpen() {
     openedCards.push(this);
-    var len = openedCards.length;
+    let len = openedCards.length;
     if(len === 2){
         moveCounter();
         if(openedCards[0].type === openedCards[1].type){
@@ -116,8 +125,8 @@ function unmatched(){
     openedCards[1].classList.add("unmatched");
     disable();
     setTimeout(function(){
-        openedCards[0].classList.remove("show", "open", "unmatched");
-        openedCards[1].classList.remove("show", "open", "unmatched");
+        openedCards[0].classList.remove('show', 'open', 'unmatched');
+        openedCards[1].classList.remove('show', 'open', 'unmatched');
         enable();
         openedCards = [];
     },1100);
@@ -126,7 +135,7 @@ function unmatched(){
 //disable cards temporarily
 function disable(){
     Array.prototype.filter.call(cards, function(card){
-        card.classList.add("disabled");
+        card.classList.add('disabled');
     });
 }
 
@@ -170,8 +179,8 @@ function moveCounter(){
 }
 
 //game timer
-var seconds = 0, minutes = 0, hours = 0;
-var timer = document.querySelector(".timer");
+let seconds = 0, minutes = 0, hours = 0;
+let timer = document.querySelector('.timer');
 var interval;
 function startTimer(){
     interval = setInterval(function (){
@@ -187,18 +196,44 @@ function startTimer(){
         }
 },1000);
 }
+//congratulations message popup when game is over
 
+function congratulations(){
+	if (matched.length == 16){
+		clearInterval(iterval);
+		let finalTime = timer.innerHTML;
+		//show congratulations modal
+		modal.classList.add('show');
+		let starRating = document.querySelector('.stars').innerHTML;
+		//show moves, time, rating on modal
+		document.getElementsByClassName('final-move').innerHTML = moves;
+		document.getElementsByClassName('star-rating').innerHTML = starRating;
+		document.getElementsByClassName('total-time').innerHTML = finalTime;
+		
+		closeModal();
+	}
+}
+
+//close modal upon clicking its close icon
+function closeModal(){
+		closeIcon.addEventListner('click', function(e){
+			modal.classList.remove('show');
+			startGame();
+		});	
+}
+	
   //loop to add event listner to each card
  for (var i=0; i < cards.length; i++){
+	card =cards[i]; 
  	cards[i].addEventListener("click",displayCard);
 	cards[i].addEventListener("click",cardOpen);
 	cards[i].addEventListener("click",congratulations);
- };
+ }
 
  
 
-// deck of all cards in game
-const deck = document.querySelector(".deck");
 
 
   
+
+    
